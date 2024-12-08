@@ -8,6 +8,7 @@ class Aula01ApplicationTests {
 
 	@Test
 	void contextLoads() {
+	
 	}
 
 }

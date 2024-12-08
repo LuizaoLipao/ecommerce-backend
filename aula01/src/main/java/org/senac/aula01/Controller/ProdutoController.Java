@@ -17,18 +17,40 @@ import org.springframework.web.bind.annotation.RequestBody;
 @RequestMapping("/produto")
 public class ProdutoController {
  
-    @Autowired
+   @Autowired
     private ProdutoRepository repository;
- 
+
     @GetMapping
-    public List<Produto> get() {
-        return repository.findAll();
-    }    
- 
-    @PostMapping
-    public Produto save(@RequestBody Produto produto) {
-        return repository.save(produto);
+    public List<Produto> get(@RequestParam(required = false, defaultValue = "nome") String order, @RequestParam(required = false) String filter) {
+      Sort sort;
+      // Verifica qual campo foi solicitado para ordenação
+      switch (order) {
+          case "maiorPreco":
+              // Ordena pelo campo "preco" em ordem decrescente
+              sort = Sort.by(Sort.Direction.DESC, "preco");
+              break;
+          case "menorPreco":
+              // Ordena pelo campo "preco" em ordem crescente
+              sort = Sort.by(Sort.Direction.ASC, "preco");
+              break;
+          case "nome":
+          default:
+              // Ordena pelo campo "nome" em ordem crescente
+              sort = Sort.by(Sort.Direction.ASC, "nome");
+              break;
+      }
+
+      if (filter != null && !filter.isEmpty()) {
+        return repository.findByNomeContains(filter, sort);
     }
-   
+
+      return repository.findAll(sort);
+  }
+
+
+    @PostMapping
+     public Produto save(@RequestBody Produto produto){
+       return repository.save(produto);
+     }
 }
  

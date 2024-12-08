@@ -13,7 +13,7 @@ public class Produto {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int idPr    
    
-    @Column(nullable = false)
+    @Column(nullable = false, name = "nome")
     private String nome;
 
 
@@ -26,10 +26,8 @@ public class Produto {
     @Lob
     @Column
     private String imgURL;
- 
-   
-    private String descricao;
-    private Double preco;
+
+
     public int getIdProduto() {
         return idProduto;
     }
@@ -60,7 +58,5 @@ public class Produto {
     }
     public void setImgURL(int imgURL) {
         this.imgURL = imgURL;
-   
+    }
 }
- 
-tem menu de contexto
